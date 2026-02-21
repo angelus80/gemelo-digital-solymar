@@ -98,8 +98,9 @@
     .step .h{margin:0;font-weight:900;font-size:16px}
     .step .p{margin:6px 0 0 0;color:var(--muted);line-height:1.6}
 
-    .simwrap{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(0,0,0,.15);padding:12px;display:grid;grid-template-columns: 1fr 1fr;gap:12px;min-height: 300px;}
-    canvas{width:100%;height:100%;border-radius: 16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.03);}
+    /* DEMO */
+    .simwrap{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(0,0,0,.15);padding:12px;display:grid;grid-template-columns: 1.35fr .65fr;gap:12px;align-items:stretch;min-height: 380px;}
+    canvas{width:100%;height:100%;min-height:360px;aspect-ratio:16/9;border-radius: 16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.03);}
     .legend{display:grid;gap:10px;align-content:start;}
     .legend .item{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);}
     .swatch{width:12px;height:12px;border-radius:4px;margin-top:3px;background: linear-gradient(135deg,var(--accent),var(--accent2));box-shadow: 0 0 0 6px rgba(106,166,255,.10);flex:0 0 auto;}
@@ -155,7 +156,7 @@
       <div class="meta">
         <span class="pill"><b>Enfoque:</b> Gemelo Digital</span>
         <span class="pill"><b>Implementación:</b> Python + SimPy</span>
-        <span class="pill"><b>Salida:</b> Simulación + escenarios</span>
+        <span class="pill"><b>Salida:</b> KPIs + escenarios</span>
       </div>
     </header>
 
@@ -172,160 +173,129 @@
 
     <main id="stage" aria-live="polite">
       <section class="slide active" id="inicio">
-        <h2 class="title">Del “sacar el día” a decidir con un gemelo digital</h2>
-        <p class="subtitle">Dónde estamos, qué duele en días críticos y cómo el gemelo digital permitirá anticipar, simular y decidir.</p>
+        <h2 class="title">De la gestión operativa a la optimización basada en simulación</h2>
+        <p class="subtitle">Planteamiento técnico del TFG: modelado mediante simulación de eventos discretos (DES) para analizar capacidad, colas y utilización de recursos, y evaluar mejoras sin intervenir la planta.</p>
         <div class="grid">
           <div class="hero">
             <div class="overlay">
               <div class="badge"><span class="dot"></span><b>Proyecto aplicado</b> · planta real + datos reales</div>
-              <p class="big">Industria real, restricciones reales, decisiones reales</p>
-              <p class="small">El valor no está en “dibujar un proceso”, sino en construir un modelo que se comporte como la planta y probar mejoras sin riesgo.</p>
+              <p class="big">Sistema real con restricciones reales (recursos, turnos y calendario)</p>
+              <p class="small">El valor está en calibrar el modelo con mediciones y generar decisiones reproducibles mediante KPIs.</p>
             </div>
           </div>
           <div class="card">
             <h3>Idea central</h3>
-            <p>Un gemelo digital es una <b>copia funcional</b> del sistema: reproduce colas, prioridades, recursos humanos y el efecto real de cambios operativos.</p>
+            <p>Un gemelo digital es una <b>representación computacional</b> del sistema real que replica colas, prioridades, recursos (máquinas/operarios) y restricciones, permitiendo experimentación controlada.</p>
             <div style="height:14px"></div>
             <div class="chiprow">
-              <span class="chip"><span class="dot"></span> <b>Simular</b> sin parar</span>
-              <span class="chip"><span class="dot"></span> <b>Medir</b> cuellos</span>
-              <span class="chip"><span class="dot"></span> <b>Elegir</b> escenarios</span>
+              <span class="chip"><span class="dot"></span> <b>Simular</b> sin interrumpir la operación</span>
+              <span class="chip"><span class="dot"></span> <b>Cuantificar</b> cuellos de botella</span>
+              <span class="chip"><span class="dot"></span> <b>Comparar</b> escenarios A/B</span>
             </div>
             <div style="height:14px"></div>
-            <div class="callout">Industria 4.0 aplicada: convertir operación y datos en decisiones.</div>
+            <div class="callout">Industria 4.0 aplicada: datos + modelo DES para decisiones reproducibles (KPIs: lead time, WIP, utilización, cumplimiento de entregas).</div>
           </div>
         </div>
       </section>
 
       <section class="slide" id="partimos">
-        <h2 class="title">Dónde partimos</h2>
-        <p class="subtitle">La planta funciona, pero en picos la planificación es reactiva y el sistema es complejo por calendario, tipos de prenda y tareas humanas.</p>
+        <h2 class="title">Situación de partida</h2>
+        <p class="subtitle">Operación compleja por calendario de entregas, mix de producto y tareas humanas. El objetivo es formalizar reglas y medir su impacto.</p>
         <div class="split">
           <div class="panel bad">
-            <h3>Operación actual</h3>
-            <p class="big">Decisiones reactivas</p>
+            <h3>Problema técnico</h3>
+            <p class="big">Variabilidad + restricciones</p>
             <ul>
-              <li>Priorización por urgencias del calendario.</li>
-              <li>Cuellos también humanos: cargar/descargar/estirar/alimentar equipos.</li>
-              <li>Cuando se acumula, cuesta justificar qué tocar sin romper el servicio.</li>
-              <li>Mantelería renting añade stock + pedidos.</li>
+              <li>Entradas variables (por cliente y día).</li>
+              <li>Recursos finitos (máquinas + operarios + turnos).</li>
+              <li>Procesos en serie/paralelo que generan colas (lavado, secado, plancha, plegado).</li>
+              <li>La mantelería renting introduce inventario y pedidos por referencias.</li>
             </ul>
-            <div class="tag"><b>Riesgo</b> · presión en picos</div>
+            <div class="tag"><b>Efecto</b> · picos y riesgo de incumplimiento</div>
           </div>
           <div class="panel">
-            <h3>Lo que buscamos</h3>
-            <p class="big">Visibilidad y control</p>
+            <h3>Objetivo del TFG</h3>
+            <p class="big">Optimización operativa</p>
             <ul>
-              <li>Ver colas y causas (máquinas, personas, reglas).</li>
-              <li>Anticipar antes de que “explote”.</li>
-              <li>Probar políticas sin riesgo: prioridades, refuerzos, ventanas, stock.</li>
-              <li>Convertir experiencia en decisiones defendibles.</li>
+              <li>Calibrar un modelo DES con mediciones reales.</li>
+              <li>Identificar cuellos (máquina vs humano vs regla de priorización).</li>
+              <li>Evaluar políticas: prioridades, ventanas, refuerzos, stock de mantelería.</li>
+              <li>Emitir recomendaciones defendibles con KPIs.</li>
             </ul>
-            <div class="tag"><b>Resultado</b> · decidir con simulación</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="gemelo">
-        <h2 class="title">Qué es un gemelo digital (sin humo)</h2>
-        <p class="subtitle">Un modelo que “vive” como la planta: entradas → recursos → colas → salidas. Permite experimentar sin riesgo.</p>
-        <div class="pipeline">
-          <div class="box"><p class="k">Sistema real</p><p class="v">Operación diaria</p><p class="d">Flujos, recursos, prioridades y calendario.</p></div>
-          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="box"><p class="k">Datos y reglas</p><p class="v">Cómo trabaja de verdad</p><p class="d">Tiempos medidos, turnos, prioridades, restricciones.</p></div>
-          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="box"><p class="k">Modelo digital</p><p class="v">Simulación</p><p class="d">Colas y recursos en entorno repetible.</p></div>
-          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="box"><p class="k">Decisión</p><p class="v">Escenarios</p><p class="d">Comparar políticas y elegir la mejor.</p></div>
-        </div>
-        <div style="height:16px"></div>
-        <div class="three-col">
-          <div class="card"><h3>Qué NO es</h3><ul><li>Un diagrama bonito.</li><li>Una estimación estática.</li><li>Un “Excel con flechas”.</li></ul></div>
-          <div class="card"><h3>Qué SÍ es</h3><ul><li>Modelo con comportamiento realista.</li><li>Laboratorio para probar cambios.</li><li>Decisiones justificables.</li></ul></div>
-          <div class="card"><h3>Qué aporta</h3><ul><li>Visibilidad.</li><li>Anticipación.</li><li>Mejora basada en datos.</li></ul></div>
-        </div>
-      </section>
-
-      <section class="slide" id="alcance">
-        <h2 class="title">Qué vamos a construir</h2>
-        <p class="subtitle">Gemelo digital de ropa plana + mantelería renting, con calendario de entrega como restricción (logística ampliable).</p>
-        <div class="grid">
-          <div class="card">
-            <h3>Alcance por fases</h3>
-            <div class="timeline">
-              <div class="step"><div class="n">1</div><div><p class="h">Ropa plana</p><p class="p">Entrada a salida con reglas reales.</p></div></div>
-              <div class="step"><div class="n">2</div><div><p class="h">Mantelería renting</p><p class="p">Producción + stock + pedidos.</p></div></div>
-              <div class="step"><div class="n">3</div><div><p class="h">Calendario como restricción</p><p class="p">Prioridades por entrega y contingencias.</p></div></div>
-            </div>
-          </div>
-          <div style="display:grid; gap:16px;">
-            <div class="card">
-              <h3>Lenguaje del sistema</h3>
-              <p><b>Lotes</b>, <b>colas</b>, <b>recursos</b>, <b>turnos</b>, <b>prioridades</b> y <b>entregas</b>.</p>
-              <div style="height:12px"></div>
-              <div class="chiprow">
-                <span class="chip"><span class="dot"></span> <b>Entrada</b></span>
-                <span class="chip"><span class="dot"></span> <b>Proceso</b></span>
-                <span class="chip"><span class="dot"></span> <b>Salida</b></span>
-              </div>
-            </div>
-            <div class="photo"><div class="overlay"><p class="t">Mantelería: producir mezclado, servir por stock</p><p class="d">Se mezcla para producir, pero se sirve por referencias y pedidos.</p></div></div>
+            <div class="tag"><b>Salida</b> · decisiones justificadas</div>
           </div>
         </div>
       </section>
 
       <section class="slide" id="herramientas">
-        <h2 class="title">Por qué Python + SimPy</h2>
-        <p class="subtitle">Stack transparente, reproducible y ampliable: validar con mediciones reales, ejecutar escenarios y analizar resultados.</p>
+        <h2 class="title">Tecnología y metodología</h2>
+        <p class="subtitle">Simulación de eventos discretos con SimPy para modelar colas y recursos; análisis de resultados con pandas/matplotlib.</p>
         <div class="two-col">
           <div class="card">
-            <h3>SimPy</h3>
-            <ul><li>Colas y recursos: máquinas, operarios, turnos.</li><li>Reglas reales: prioridad por entrega, ventanas, refuerzos.</li><li>Escenarios A/B sin tocar la planta.</li></ul>
+            <h3>SimPy (DES)</h3>
+            <ul>
+              <li>Recursos: lavadoras, secadoras, plancha, plegado, operarios.</li>
+              <li>Colas: tiempos de espera y acumulación (WIP).</li>
+              <li>Reglas: prioridades por entrega, ventanas de producción, contingencias.</li>
+              <li>Escenarios: A/B con múltiples réplicas para robustez.</li>
+            </ul>
             <div style="height:12px"></div>
-            <div class="callout">El modelo debe ser <b>explicable</b> y defendible.</div>
+            <div class="callout">El modelo debe ser <b>trazable</b>: cada KPI se explica por decisiones y restricciones.</div>
           </div>
           <div class="card">
-            <h3>Herramientas</h3>
-            <ul><li><b>Python</b> + <b>SimPy</b></li><li><b>Pandas</b> para datos</li><li><b>Matplotlib</b> para gráficas</li><li>Captura rápida en <b>Excel/Sheets</b></li></ul>
+            <h3>KPIs (ejemplos)</h3>
+            <ul>
+              <li><b>Lead time</b> por lote y por cliente</li>
+              <li><b>Utilización</b> de recursos (máquinas/personas)</li>
+              <li><b>WIP</b> y colas máximas</li>
+              <li><b>OTD</b> (cumplimiento de entregas)</li>
+              <li><b>Coste operativo</b> por política (horas extra/refuerzos)</li>
+            </ul>
           </div>
         </div>
       </section>
 
       <section class="slide" id="demo">
-        <h2 class="title">Demo conceptual</h2>
-        <p class="subtitle">En portátil se anima; en móvil se muestra como bloque (el gemelo real corre en Python).</p>
+        <h2 class="title">Visualización conceptual del flujo</h2>
+        <p class="subtitle">Visualización conceptual del flujo (el gemelo real se implementa y ejecuta en Python/SimPy; aquí solo se ilustra la lógica de eventos y colas).</p>
         <div class="simwrap">
           <canvas id="sim" width="900" height="520"></canvas>
           <div class="legend">
-            <div class="item"><span class="swatch"></span><div><p><b>Trabajos</b></p><p>Entradas que generan colas.</p></div></div>
-            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(255,211,106,.95),rgba(106,166,255,.75))"></span><div><p><b>Recursos</b></p><p>Máquinas y operarios limitan el flujo.</p></div></div>
-            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(124,240,199,.95),rgba(255,211,106,.75))"></span><div><p><b>Prioridad</b></p><p>Urgencias suben en cola.</p></div></div>
+            <div class="item"><span class="swatch"></span><div><p><b>Trabajos</b></p><p>Entradas (lotes) que generan colas.</p></div></div>
+            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(255,211,106,.95),rgba(106,166,255,.75))"></span><div><p><b>Recursos</b></p><p>Máquinas y operarios limitan el throughput.</p></div></div>
+            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(124,240,199,.95),rgba(255,211,106,.75))"></span><div><p><b>Prioridad</b></p><p>Urgentes avanzan antes; se mide el impacto.</p></div></div>
+            <div class="callout">Si en tu móvil se ve pequeño, gira a horizontal o usa el scroll (modo móvil).</div>
           </div>
         </div>
       </section>
 
       <section class="slide" id="roadmap">
-        <h2 class="title">Roadmap del TFG</h2>
-        <p class="subtitle">Plan de ejecución para llegar a un modelo calibrado, validado y defendible.</p>
+        <h2 class="title">Roadmap</h2>
+        <p class="subtitle">Plan de ejecución para un modelo calibrado, validado y defendible.</p>
         <div class="two-col">
           <div class="card">
-            <h3>Hitos</h3>
+            <h3>Fases</h3>
             <div class="timeline">
-              <div class="step"><div class="n">1</div><div><p class="h">Mapa + reglas</p><p class="p">Alcance y lógica real.</p></div></div>
-              <div class="step"><div class="n">2</div><div><p class="h">Medición</p><p class="p">Datos en planta + calibración.</p></div></div>
-              <div class="step"><div class="n">3</div><div><p class="h">Validación + escenarios</p><p class="p">A/B y propuestas de mejora.</p></div></div>
-              <div class="step"><div class="n">4</div><div><p class="h">Memoria y defensa</p><p class="p">Documentación y conclusiones.</p></div></div>
+              <div class="step"><div class="n">1</div><div><p class="h">Modelado</p><p class="p">Mapa del proceso + reglas y restricciones.</p></div></div>
+              <div class="step"><div class="n">2</div><div><p class="h">Medición</p><p class="p">Tiempos reales por tarea y recurso; variabilidad.</p></div></div>
+              <div class="step"><div class="n">3</div><div><p class="h">Calibración y validación</p><p class="p">Ajuste del modelo y comparación con la operación.</p></div></div>
+              <div class="step"><div class="n">4</div><div><p class="h">Experimentos</p><p class="p">Escenarios A/B, análisis de KPIs y recomendaciones.</p></div></div>
             </div>
           </div>
           <div class="card">
-            <h3>Resultado final</h3>
-            <div class="callout">Decisiones defendibles: qué cambiar, cuándo y por qué.</div>
+            <h3>Entregables</h3>
+            <ul>
+              <li>Modelo SimPy (código + documentación)</li>
+              <li>Dataset de mediciones y supuestos</li>
+              <li>Informe de escenarios y KPIs</li>
+              <li>Propuesta de mejoras priorizadas por impacto/coste</li>
+            </ul>
             <div style="height:12px"></div>
             <div class="hero" style="min-height:240px;">
               <div class="overlay">
                 <div class="badge"><b>Lavandería Solymar</b> · Gemelo Digital</div>
-                <p class="big">Un TFG aplicado que se defiende con resultados</p>
-                <p class="small">Portátil: pulsa <b>F</b> para pantalla completa.</p>
+                <p class="big">TFG defendible con evidencia</p>
+                <p class="small">Portátil: ← → / Espacio · F pantalla completa</p>
               </div>
             </div>
           </div>
@@ -334,24 +304,24 @@
 
       <section class="slide" id="cierre">
         <h2 class="title">Cierre</h2>
-        <p class="subtitle">Transformar experiencia en simulación: ver el sistema completo, anticipar cuellos y elegir la mejor acción antes de ejecutarla.</p>
+        <p class="subtitle">Objetivo: estabilizar la operación en picos, reducir colas y justificar decisiones con KPIs y escenarios reproducibles.</p>
         <div class="grid">
           <div class="card">
             <h3>Mensaje final</h3>
-            <p style="font-size:18px;font-weight:900;margin:0 0 10px 0;">Lo que hoy se decide con intuición, mañana se decide con simulación.</p>
-            <p style="color:var(--muted);margin:0;">En móvil se verá como “scroll story”. En portátil, como diapositivas con navegación.</p>
+            <p style="font-size:18px;font-weight:900;margin:0 0 10px 0;">De la experiencia operativa a la decisión basada en modelo.</p>
+            <p style="color:var(--muted);margin:0;">El gemelo digital permitirá anticipar cuellos, evaluar políticas y priorizar mejoras sin riesgo sobre el servicio.</p>
             <div style="height:14px"></div>
             <div class="chiprow">
-              <span class="chip"><span class="dot"></span> Visibilidad</span>
-              <span class="chip"><span class="dot"></span> Anticipación</span>
-              <span class="chip"><span class="dot"></span> Mejora defendible</span>
+              <span class="chip"><span class="dot"></span> KPIs</span>
+              <span class="chip"><span class="dot"></span> Escenarios</span>
+              <span class="chip"><span class="dot"></span> Decisiones defendibles</span>
             </div>
           </div>
           <div class="hero">
             <div class="overlay">
-              <div class="badge"><b>Presentación interactiva</b> · lista para compartir</div>
+              <div class="badge"><b>Presentación dual</b> · PC (slides) / móvil (scroll)</div>
               <p class="big">¿Preguntas?</p>
-              <p class="small">Portátil: ← → / Espacio · Móvil: desliza y usa accesos arriba.</p>
+              <p class="small">Móvil: desliza · PC: ← → / Espacio</p>
             </div>
           </div>
         </div>
@@ -366,7 +336,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:12px;">
         <div class="progress"><div class="bar" id="bar"></div></div>
-        <div id="counter" class="pill">1 / 8</div>
+        <div id="counter" class="pill">1 / 6</div>
       </div>
     </footer>
   </div>
@@ -383,7 +353,7 @@
       slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
       if(counter) counter.textContent = `${i+1} / ${slides.length}`;
       if(bar) bar.style.width = `${((i+1)/slides.length)*100}%`;
-      if (i === 5) startSim(); else stopSim();
+      if (i === 3) startSim(); else stopSim();
     }
 
     function setMode(){
@@ -425,11 +395,11 @@
     const ctx = canvas?.getContext('2d');
     let raf = null, t0 = 0, jobs = [];
     const stations = [
-      {name:'Entrada', x:90,  y:95,  r:26},
-      {name:'Lavado',  x:300, y:95,  r:26},
-      {name:'Secado',  x:510, y:95,  r:26},
-      {name:'Plancha', x:300, y:290, r:26},
-      {name:'Salida',  x:720, y:190, r:26},
+      {name:'Entrada', x:110,  y:120,  r:26},
+      {name:'Lavado',  x:340, y:120,  r:26},
+      {name:'Secado',  x:570, y:120,  r:26},
+      {name:'Plancha', x:340, y:320, r:26},
+      {name:'Salida',  x:780, y:220, r:26},
     ];
 
     function resizeCanvas(){
@@ -452,7 +422,8 @@
       const h = canvas.getBoundingClientRect().height;
       ctx.clearRect(0,0,w,h);
 
-      ctx.globalAlpha = 0.32;
+      // grid
+      ctx.globalAlpha = 0.28;
       ctx.strokeStyle = 'rgba(255,255,255,.08)';
       ctx.lineWidth = 1;
       for(let x=0; x<w; x+=32){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
@@ -497,11 +468,6 @@
 
         ctx.fillStyle = colA; ctx.strokeStyle = colB; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.roundRect(x-7,y-7,14,14,5); ctx.fill(); ctx.stroke();
-
-        ctx.globalAlpha = 0.18;
-        ctx.fillStyle = colA;
-        ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
-        ctx.globalAlpha = 1;
       }
     }
 
