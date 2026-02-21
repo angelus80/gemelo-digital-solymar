@@ -99,8 +99,27 @@
     .step .p{margin:6px 0 0 0;color:var(--muted);line-height:1.6}
 
     /* DEMO */
-    .simwrap{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(0,0,0,.15);padding:12px;display:grid;grid-template-columns: 1.35fr .65fr;gap:12px;align-items:stretch;min-height: 380px;}
-    canvas{width:100%;height:100%;min-height:360px;aspect-ratio:16/9;border-radius: 16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.03);}
+    .simwrap {
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.15);
+      padding:12px;
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:12px;
+      align-items:stretch;
+      min-height: 380px;
+      position: relative;
+      overflow: hidden;
+    }
+    .simwrap canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
     .legend{display:grid;gap:10px;align-content:start;}
     .legend .item{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);}
     .swatch{width:12px;height:12px;border-radius:4px;margin-top:3px;background: linear-gradient(135deg,var(--accent),var(--accent2));box-shadow: 0 0 0 6px rgba(106,166,255,.10);flex:0 0 auto;}
@@ -115,7 +134,7 @@
     .progress{width: 240px;height:10px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;border:1px solid rgba(255,255,255,.10);}
     .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));}
 
-    /* Mobile scroll story */
+    /* Mobile */
     body.mobile{overflow:auto;}
     body.mobile .deck{height:auto;grid-template-rows:auto auto auto;padding:16px;gap:12px;}
     body.mobile main#stage{position:static;height:auto;overflow:visible;background: transparent;border:none;box-shadow:none;}
@@ -129,7 +148,7 @@
     body.mobile .pipeline{grid-template-columns: 1fr; gap:12px}
     body.mobile .arrow{display:none}
     body.mobile .split{grid-template-columns: 1fr}
-    body.mobile .simwrap{grid-template-columns: 1fr}
+    body.mobile .simwrap{grid-template-columns: 1fr; min-height: 320px;}
     body.mobile footer{display:none}
 
     .mobileNav{display:none;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:12px;border-radius: 18px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.045);box-shadow: 0 14px 40px rgba(0,0,0,.20);position:sticky;top: 10px;z-index: 20;}
@@ -172,6 +191,7 @@
     </div>
 
     <main id="stage" aria-live="polite">
+      <!-- Slide 1 -->
       <section class="slide active" id="inicio">
         <h2 class="title">De la gestión operativa a la optimización basada en simulación</h2>
         <p class="subtitle">Planteamiento técnico del TFG: modelado mediante simulación de eventos discretos (DES) para analizar capacidad, colas y utilización de recursos, y evaluar mejoras sin intervenir la planta.</p>
@@ -198,6 +218,7 @@
         </div>
       </section>
 
+      <!-- Slide 2 -->
       <section class="slide" id="partimos">
         <h2 class="title">Situación de partida</h2>
         <p class="subtitle">Operación compleja por calendario de entregas, mix de producto y tareas humanas. El objetivo es formalizar reglas y medir su impacto.</p>
@@ -227,6 +248,7 @@
         </div>
       </section>
 
+      <!-- Slide 3 -->
       <section class="slide" id="herramientas">
         <h2 class="title">Tecnología y metodología</h2>
         <p class="subtitle">Simulación de eventos discretos con SimPy para modelar colas y recursos; análisis de resultados con pandas/matplotlib.</p>
@@ -255,11 +277,12 @@
         </div>
       </section>
 
+      <!-- Slide 4 - DEMO -->
       <section class="slide" id="demo">
         <h2 class="title">Visualización conceptual del flujo</h2>
         <p class="subtitle">Visualización conceptual del flujo (el gemelo real se implementa y ejecuta en Python/SimPy; aquí solo se ilustra la lógica de eventos y colas).</p>
         <div class="simwrap">
-          <canvas id="sim" width="900" height="520"></canvas>
+          <canvas id="sim"></canvas>
           <div class="legend">
             <div class="item"><span class="swatch"></span><div><p><b>Trabajos</b></p><p>Entradas (lotes) que generan colas.</p></div></div>
             <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(255,211,106,.95),rgba(106,166,255,.75))"></span><div><p><b>Recursos</b></p><p>Máquinas y operarios limitan el throughput.</p></div></div>
@@ -269,6 +292,7 @@
         </div>
       </section>
 
+      <!-- Slide 5 -->
       <section class="slide" id="roadmap">
         <h2 class="title">Roadmap</h2>
         <p class="subtitle">Plan de ejecución para un modelo calibrado, validado y defendible.</p>
@@ -302,6 +326,7 @@
         </div>
       </section>
 
+      <!-- Slide 6 -->
       <section class="slide" id="cierre">
         <h2 class="title">Cierre</h2>
         <p class="subtitle">Objetivo: estabilizar la operación en picos, reducir colas y justificar decisiones con KPIs y escenarios reproducibles.</p>
@@ -390,129 +415,183 @@
       if (e.key.toLowerCase() === 'f') { e.preventDefault(); toggleFS(); }
     });
 
-    // Demo animation (desktop only)
+    // ANIMACIÓN - FLUJO CORRECTO: Secado → Plegado → Empaquetado   y   Plancha → Empaquetado
     const canvas = document.getElementById('sim');
     const ctx = canvas?.getContext('2d');
     let raf = null, t0 = 0, jobs = [];
-    const stations = [
-      {name:'Entrada', x:110,  y:120,  r:26},
-      {name:'Lavado',  x:340, y:120,  r:26},
-      {name:'Secado',  x:570, y:120,  r:26},
-      {name:'Plancha', x:340, y:320, r:26},
-      {name:'Salida',  x:780, y:220, r:26},
-    ];
+
+    function getStations(w, h) {
+      const r = Math.min(w, h) * 0.035; // un poco más pequeño para 7 estaciones
+      return [
+        {name:'Entrada',     x: w*0.08,  y: h*0.22, r},
+        {name:'Lavado',      x: w*0.24,  y: h*0.22, r},
+        {name:'Secado',      x: w*0.40,  y: h*0.22, r},
+        {name:'Plancha',     x: w*0.24,  y: h*0.58, r},
+        {name:'Plegado',     x: w*0.56,  y: h*0.22, r},
+        {name:'Empaquetado', x: w*0.72,  y: h*0.40, r},
+        {name:'Salida',      x: w*0.92,  y: h*0.40, r}
+      ];
+    }
 
     function resizeCanvas(){
       if(!canvas || !ctx) return;
+      const dpr = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      canvas.width = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
-      ctx.setTransform(dpr,0,0,dpr,0,0);
+      canvas.width  = rect.width  * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width  = rect.width  + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function spawnJob(){
-      const kind = Math.random() < 0.55 ? 'hotel' : 'mantel';
-      jobs.push({kind, stage:0, p:0, priority: Math.random()<0.22 ? 1 : 0, jitter:(Math.random()*6-3)});
+      const kind = Math.random() < 0.58 ? 'hotel' : 'mantel';
+      const priority = Math.random() < 0.20 ? 1 : 0;
+      jobs.push({
+        kind,
+        stage: 0,
+        p: 0,
+        priority,
+        jitter: (Math.random()*8 - 4),
+        path: null  // 'plancha' o 'secado-plegado'
+      });
     }
 
     function draw(){
       if(!ctx || !canvas) return;
-      const w = canvas.getBoundingClientRect().width;
-      const h = canvas.getBoundingClientRect().height;
-      ctx.clearRect(0,0,w,h);
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.width  / dpr;
+      const h = canvas.height / dpr;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // grid
-      ctx.globalAlpha = 0.28;
-      ctx.strokeStyle = 'rgba(255,255,255,.08)';
+      ctx.globalAlpha = 0.22;
+      ctx.strokeStyle = 'rgba(255,255,255,.07)';
       ctx.lineWidth = 1;
       for(let x=0; x<w; x+=32){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
       for(let y=0; y<h; y+=32){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
       ctx.globalAlpha = 1;
 
-      function link(a,b){
-        ctx.strokeStyle = 'rgba(106,166,255,.35)';
-        ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-      }
-      link(stations[0], stations[1]);
-      link(stations[1], stations[2]);
-      link(stations[1], stations[3]);
-      link(stations[2], stations[4]);
-      link(stations[3], stations[4]);
+      const stations = getStations(w, h);
 
-      for(const s of stations){
-        ctx.fillStyle = 'rgba(255,255,255,.05)';
-        ctx.strokeStyle = 'rgba(255,255,255,.18)';
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = 'rgba(236,243,255,.95)';
-        ctx.font = '800 13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto';
+      // líneas
+      function link(from, to){
+        ctx.strokeStyle = 'rgba(106,166,255,.38)';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(stations[from].x, stations[from].y);
+        ctx.lineTo(stations[to].x, stations[to].y);
+        ctx.stroke();
+      }
+      link(0,1); link(1,2); link(1,3); link(2,4); link(4,5); link(3,5); link(5,6);
+
+      // estaciones
+      stations.forEach(s => {
+        ctx.fillStyle = 'rgba(255,255,255,.06)';
+        ctx.strokeStyle = 'rgba(255,255,255,.20)';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = 'rgba(236,243,255,0.97)';
+        ctx.font = `800 ${Math.max(10, s.r*0.52)}px system-ui, sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillText(s.name, s.x, s.y + s.r + 18);
-      }
+        ctx.textBaseline = 'top';
+        ctx.fillText(s.name, s.x, s.y + s.r + 9);
+      });
 
-      for(const j of jobs){
-        const isMantel = j.kind === 'mantel';
-        let a,b;
-        if(j.stage===0){ a=stations[0]; b=stations[1]; }
-        else if(j.stage===1){ a=stations[1]; b=(isMantel||Math.random()<0.45)?stations[3]:stations[2]; }
-        else { a=j.lastWasPlancha?stations[3]:stations[2]; b=stations[4]; }
+      // trabajos
+      jobs.forEach(j => {
+        let aIdx, bIdx;
 
-        const x = a.x + (b.x-a.x)*j.p;
-        const y = a.y + (b.y-a.y)*j.p + j.jitter;
+        if (j.stage === 0) { aIdx = 0; bIdx = 1; }                    // Entrada → Lavado
+        else if (j.stage === 1) { aIdx = 1; bIdx = j.path === 'plancha' ? 3 : 2; }  // Lavado → Plancha o Secado
+        else if (j.stage === 2) {
+          if (j.path === 'plancha') { aIdx = 3; bIdx = 5; }           // Plancha → Empaquetado
+          else { aIdx = 2; bIdx = 4; }                                 // Secado → Plegado
+        }
+        else if (j.stage === 3) {
+          if (j.path === 'plancha') { aIdx = 5; bIdx = 6; }           // Empaquetado → Salida
+          else { aIdx = 4; bIdx = 5; }                                 // Plegado → Empaquetado
+        }
+        else if (j.stage === 4) { aIdx = 5; bIdx = 6; }               // Empaquetado → Salida (para los que venían de Plegado)
 
-        const urgent = j.priority===1;
-        const colA = urgent ? 'rgba(255,211,106,.95)' : 'rgba(106,166,255,.95)';
-        const colB = urgent ? 'rgba(124,240,199,.85)' : 'rgba(124,240,199,.95)';
+        const a = stations[aIdx];
+        const b = stations[bIdx];
 
-        ctx.fillStyle = colA; ctx.strokeStyle = colB; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.roundRect(x-7,y-7,14,14,5); ctx.fill(); ctx.stroke();
-      }
+        const x = a.x + (b.x - a.x) * j.p;
+        const y = a.y + (b.y - a.y) * j.p + j.jitter;
+
+        const urgent = j.priority === 1;
+        const colA = urgent ? 'rgba(255,211,106,.97)' : 'rgba(106,166,255,.97)';
+        const colB = urgent ? 'rgba(124,240,199,.92)' : 'rgba(124,240,199,.97)';
+
+        ctx.fillStyle = colA;
+        ctx.strokeStyle = colB;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.roundRect(x-9, y-9, 18, 18, 6);
+        ctx.fill();
+        ctx.stroke();
+      });
     }
 
     function tick(ts){
       if(!t0) t0 = ts;
       const dt = (ts - t0)/1000; t0 = ts;
-      if(Math.random()<0.08 && jobs.length<26) spawnJob();
 
-      for(const j of jobs){
-        const slow = (j.stage===1 && j.kind==='mantel') || j.lastWasPlancha;
-        const v = slow ? 0.13 : 0.20;
-        j.p += v*dt*(j.priority?1.05:1.0);
-        if(j.stage===1 && j.p>0.15){
-          if(j.kind==='mantel') j.lastWasPlancha=true;
-          else if(j.lastWasPlancha===undefined) j.lastWasPlancha=Math.random()<0.48;
+      if (Math.random() < 0.085 && jobs.length < 24) spawnJob();
+
+      jobs.forEach(j => {
+        // Decidir camino después de Lavado (stage 1)
+        if (j.stage === 1 && j.p > 0.15 && !j.path) {
+          if (j.kind === 'mantel') {
+            j.path = 'plancha';
+          } else {
+            // hotel: 70% secado-plegado, 30% plancha directa (ajustable)
+            j.path = Math.random() < 0.70 ? 'secado-plegado' : 'plancha';
+          }
         }
-        if(j.p>=1){ j.stage+=1; j.p=0; }
-      }
-      jobs = jobs.filter(j => j.stage <= 2.2);
+
+        // velocidad (mantuvimos la más rápida que te gustó)
+        const slow = (j.kind === 'mantel') || j.path === 'plancha';
+        const speed = slow ? 0.14 : 0.22;
+        j.p += speed * dt * (j.priority ? 1.12 : 1.0);
+
+        if (j.p >= 1) {
+          j.stage += 1;
+          j.p = 0;
+        }
+      });
+
+      // Filtrar terminados
+      jobs = jobs.filter(j => j.stage < 5);
+
       draw();
       raf = requestAnimationFrame(tick);
     }
 
     function startSim(){
-      if(mq.matches) return;
-      if(!canvas || !ctx || raf) return;
+      if (mq.matches) return;
+      if (!canvas || !ctx || raf) return;
       resizeCanvas();
       jobs = [];
-      for(let k=0;k<10;k++) spawnJob();
+      for(let k = 0; k < 8; k++) spawnJob();
       t0 = 0;
       raf = requestAnimationFrame(tick);
       window.addEventListener('resize', resizeCanvas);
     }
+
     function stopSim(){
-      if(raf){ cancelAnimationFrame(raf); raf=null; }
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
       window.removeEventListener('resize', resizeCanvas);
-      if(ctx && canvas){
-        const w = canvas.getBoundingClientRect().width;
-        const h = canvas.getBoundingClientRect().height;
-        ctx.clearRect(0,0,w,h);
-      }
+      if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     mq.addEventListener?.('change', setMode);
     setMode();
+    setTimeout(resizeCanvas, 300);
   </script>
 </body>
 </html>
