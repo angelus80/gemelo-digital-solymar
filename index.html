@@ -1,845 +1,552 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>TFG · Gemelo Digital · Lavandería Solymar</title>
-<style>
-:root{
-  --bg0:#070b14; --bg1:#0b1220;
-  --card:rgba(255,255,255,.055); --stroke:rgba(255,255,255,.12);
-  --text:#ecf3ff; --muted:#b7c5e6;
-  --a:#6aa6ff; --b:#7cf0c7; --c:#ffd36a;
-  --shadow:0 22px 70px rgba(0,0,0,.55);
-  --shadow2:0 12px 40px rgba(0,0,0,.35);
-  --r:22px;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; color:var(--text);
-  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  background:
-    radial-gradient(1200px 800px at 15% 15%, rgba(106,166,255,.18), transparent 55%),
-    radial-gradient(900px 700px at 75% 25%, rgba(124,240,199,.12), transparent 55%),
-    radial-gradient(800px 700px at 55% 95%, rgba(255,211,106,.10), transparent 55%),
-    linear-gradient(180deg, var(--bg0), var(--bg1));
-  overflow:hidden;
-}
-.deck{height:100%; display:grid; grid-template-rows:auto 1fr auto; padding:22px; gap:14px;}
-header{display:flex; align-items:center; justify-content:space-between; gap:12px;}
-.brand{display:flex; align-items:center; gap:12px; min-width:280px;}
-.logo{
-  width:38px; height:38px; border-radius:12px;
-  background:url('assets/logo.jpeg') center/cover no-repeat;
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-.kicker{margin:0; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:800;}
-.meta{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; color:var(--muted); font-size:13px;}
-.pill{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.055);
-  padding:8px 11px; border-radius:999px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-  white-space:nowrap;
-}
-.pill b{color:var(--text)}
-main{
-  position:relative; height:100%; overflow:hidden;
-  border-radius:var(--r);
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.04);
-  box-shadow:var(--shadow);
-}
-.slide{
-  position:absolute; inset:0;
-  padding:44px 46px;
-  display:grid; grid-template-rows:auto auto 1fr;
-  gap:18px;
-  opacity:0; transform:translateX(18px) scale(.99);
-  transition:opacity .28s ease, transform .28s ease;
-  pointer-events:none;
-}
-.slide.active{opacity:1; transform:translateX(0) scale(1); pointer-events:auto;}
-.title{font-size:44px; line-height:1.06; margin:0; letter-spacing:-.03em; max-width:1100px;}
-.subtitle{margin:0; color:var(--muted); font-size:18px; line-height:1.55; max-width:1080px;}
-.grid{display:grid; grid-template-columns:1.25fr .75fr; gap:18px; align-items:start;}
-.two{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch;}
-.three{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; align-items:stretch;}
-.card{
-  background:var(--card); border:1px solid var(--stroke);
-  border-radius:18px; padding:18px;
-  box-shadow:var(--shadow2);
-  backdrop-filter:blur(10px);
-}
-.card h3{
-  margin:0 0 10px 0;
-  font-size:13px; color:var(--muted);
-  letter-spacing:.12em; text-transform:uppercase; font-weight:800;
-}
-.card p{margin:0; line-height:1.6}
-.card ul{margin:0; padding-left:18px; line-height:1.6}
-.card li{margin:7px 0}
-.callout{
-  border:1px solid rgba(255,211,106,.25);
-  background:rgba(255,211,106,.08);
-  border-radius:18px; padding:14px; color:#ffe9b0;
-}
-.callout b{color:#fff0c9}
-.hero{
-  border-radius:20px; border:1px solid rgba(255,255,255,.12);
-  overflow:hidden; position:relative; min-height:330px;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.62)),
-    url('assets/instalaciones.jpg') center/cover no-repeat;
-  box-shadow:var(--shadow2);
-}
-.hero .overlay{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:18px; gap:8px;}
-.badge{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:7px 10px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(0,0,0,.35);
-  backdrop-filter:blur(10px);
-  width:fit-content; color:var(--muted); font-size:12px;
-}
-.badge .dot{width:8px; height:8px; border-radius:50%;
-  background:linear-gradient(135deg,var(--a),var(--b));
-  box-shadow:0 0 0 6px rgba(106,166,255,.10);
-}
-.badge b{color:var(--text)}
-.hero .big{font-size:20px; font-weight:900; letter-spacing:-.02em; margin:0;}
-.hero .small{margin:0; color:rgba(255,255,255,.85); line-height:1.55; max-width:860px;}
-.photo{
-  border-radius:18px; border:1px solid rgba(255,255,255,.12);
-  overflow:hidden; min-height:210px; position:relative;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.62)),
-    url('assets/manteleria_hero.jpg') center/cover no-repeat;
-  box-shadow:var(--shadow2);
-}
-.photo .overlay{position:absolute; inset:0; padding:16px; display:flex; flex-direction:column; justify-content:flex-end; gap:6px;}
-.photo .t{margin:0; font-size:18px; font-weight:900; letter-spacing:-.02em;}
-.photo .d{margin:0; color:rgba(255,255,255,.85); line-height:1.55;}
-.chiprow{display:flex; gap:10px; flex-wrap:wrap}
-.chip{
-  display:inline-flex; align-items:center; gap:10px;
-  padding:10px 12px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:var(--muted); font-weight:800;
-  box-shadow:0 10px 24px rgba(0,0,0,.18);
-}
-.chip b{color:var(--text)}
-.chip svg{width:18px; height:18px; opacity:.95}
-.timeline{display:grid; gap:12px;}
-.step{
-  display:grid; grid-template-columns:44px 1fr; gap:12px; align-items:start;
-  padding:14px; border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-}
-.step .n{
-  width:44px; height:44px; border-radius:16px;
-  display:grid; place-items:center;
-  background:linear-gradient(135deg, rgba(106,166,255,.25), rgba(124,240,199,.18));
-  border:1px solid rgba(255,255,255,.14);
-  font-weight:900;
-}
-.step .h{margin:0; font-weight:900; font-size:16px}
-.step .p{margin:6px 0 0 0; color:var(--muted); line-height:1.55}
-.pipeline{
-  display:grid;
-  grid-template-columns:1fr 70px 1fr 70px 1fr 70px 1fr;
-  align-items:stretch;
-}
-.box{
-  border-radius:18px; border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-  padding:14px; display:flex; flex-direction:column; gap:8px;
-  min-height:130px;
-}
-.box .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:800; margin:0}
-.box .v{margin:0; font-size:16px; font-weight:900; letter-spacing:-.01em}
-.box .d{margin:0; color:var(--muted); line-height:1.55; font-size:14px}
-.arrow{display:grid; place-items:center}
-.arrow svg{filter:drop-shadow(0 10px 20px rgba(106,166,255,.18))}
-.split{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-.panel{
-  border-radius:18px; border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-  padding:18px; min-height:260px;
-  position:relative; overflow:hidden;
-}
-.panel:before{
-  content:""; position:absolute; inset:-60px -60px auto auto;
-  width:180px; height:180px; border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, rgba(106,166,255,.20), transparent 60%);
-  opacity:.85;
-}
-.panel.bad:before{background:radial-gradient(circle at 30% 30%, rgba(255,211,106,.16), transparent 60%);}
-.panel h3{margin:0 0 10px 0; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);}
-.panel .big{margin:0; font-size:24px; font-weight:950; letter-spacing:-.02em;}
-.panel ul{margin:12px 0 0 0; padding-left:18px; line-height:1.6;}
-.panel li{margin:8px 0}
-.panel .tag{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 10px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(0,0,0,.18);
-  color:var(--muted); font-weight:800; font-size:12px;
-  margin-top:12px;
-}
-.panel .tag b{color:var(--text)}
-footer{display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted); font-size:13px;}
-.controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-button{
-  appearance:none; border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  padding:10px 12px; border-radius:14px;
-  cursor:pointer; font-weight:900;
-  transition:transform .08s ease, background .15s ease;
-}
-button:hover{background:rgba(255,255,255,.09)}
-button:active{transform:translateY(1px)}
-.progress{width:240px; height:10px; border-radius:999px; background:rgba(255,255,255,.10); overflow:hidden; border:1px solid rgba(255,255,255,.10);}
-.bar{height:100%; width:0%; background:linear-gradient(90deg,var(--a),var(--b));}
-.hint{opacity:.85}
-.simwrap{
-  border-radius:18px; border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.15);
-  padding:12px;
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:12px; min-height:300px;
-}
-canvas{
-  width:100%; height:100%;
-  border-radius:16px; border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.03);
-}
-.legend{display:grid; gap:10px; align-content:start;}
-.legend .item{
-  display:flex; gap:10px; align-items:flex-start;
-  padding:12px; border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-}
-.swatch{width:12px;height:12px;border-radius:4px;margin-top:3px; box-shadow:0 0 0 6px rgba(106,166,255,.10); flex:0 0 auto;}
-.item b{color:var(--text)} .item p{margin:0; color:var(--muted); line-height:1.5}
-@media (max-width: 980px){
-  .slide{padding:26px}
-  .title{font-size:32px}
-  .grid,.two,.three,.split,.simwrap{grid-template-columns:1fr}
-  .pipeline{grid-template-columns:1fr; gap:12px}
-  .arrow{display:none}
-  .progress{width:180px}
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>TFG · Gemelo Digital · Lavandería Solymar</title>
+  <meta name="description" content="Presentación del TFG: Gemelo Digital de una lavandería industrial (Lavandería Solymar S.L.)." />
+  <style>
+    :root{
+      --bg0:#070b14; --bg1:#0b1220;
+      --card: rgba(255,255,255,.055);
+      --stroke: rgba(255,255,255,.12);
+      --text:#ecf3ff; --muted:#b7c5e6;
+      --accent:#6aa6ff; --accent2:#7cf0c7; --accent3:#ffd36a;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 22px; --maxw: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 15% 15%, rgba(106,166,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 75% 25%, rgba(124,240,199,.12), transparent 55%),
+        radial-gradient(800px 700px at 55% 95%, rgba(255,211,106,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+    .pill{border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.055);padding:8px 11px;border-radius:999px;backdrop-filter: blur(10px);box-shadow: 0 10px 30px rgba(0,0,0,.15);white-space:nowrap;}
+    .pill b{color:var(--text)}
+    .card{background: var(--card);border:1px solid var(--stroke);border-radius: 18px;padding:18px;box-shadow: var(--shadow2);backdrop-filter: blur(10px);}
+    .card h3{margin:0 0 10px 0;font-size:13px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:800;}
+    .card p{margin:0; line-height:1.7}
+    .card ul{margin:0; padding-left:18px; line-height:1.7}
+    .card li{margin:7px 0}
+    .callout{border:1px solid rgba(255,211,106,.25);background: rgba(255,211,106,.08);border-radius: 18px;padding:14px;color: #ffe9b0;}
+    .callout b{color:#fff0c9}
+    .chiprow{display:flex; gap:10px; flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius: 999px;border:1px solid rgba(255,255,255,.14);background: rgba(255,255,255,.06);color: var(--muted);font-weight:700;box-shadow: 0 10px 24px rgba(0,0,0,.18);}
+    .chip b{color:var(--text)}
+    .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow: 0 0 0 6px rgba(106,166,255,.10);flex:0 0 auto;}
+
+    .hero{border-radius: 20px;border:1px solid rgba(255,255,255,.12);overflow:hidden;position:relative;min-height: 320px;background:linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),url('assets/instalaciones.jpg') center/cover no-repeat;box-shadow: var(--shadow2);}
+    .hero .overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;gap:8px;}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background: rgba(0,0,0,.35);backdrop-filter: blur(10px);width: fit-content;color: var(--muted);font-size:12px;font-weight:800;}
+    .badge b{color:var(--text)}
+    .hero .big{font-size:20px;font-weight:900;letter-spacing:-.02em;margin:0;}
+    .hero .small{margin:0;color: rgba(255,255,255,.88);line-height:1.6;max-width: 860px;}
+
+    .photo{border-radius: 18px;border:1px solid rgba(255,255,255,.12);overflow:hidden;min-height: 220px;background:linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)),url('assets/manteleria_hero.jpg') center/cover no-repeat;box-shadow: var(--shadow2);position:relative;}
+    .photo .overlay{position:absolute;inset:0;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;}
+    .photo .t{margin:0; font-size:18px; font-weight:900; letter-spacing:-.02em;}
+    .photo .d{margin:0; color: rgba(255,255,255,.88); line-height:1.6;}
+
+    body.desktop{overflow:hidden;}
+    .deck{height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:22px;gap:14px;max-width: var(--maxw);margin: 0 auto;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .brand{display:flex;align-items:center;gap:12px;min-width: 280px;}
+    .logo{width:40px;height:40px;border-radius:12px;background: url('assets/logo.jpeg') center/cover no-repeat;border:1px solid rgba(255,255,255,.10);box-shadow: 0 10px 30px rgba(0,0,0,.25);flex:0 0 auto;}
+    .kicker{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800;}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;color:var(--muted); font-size:13px;}
+
+    main#stage{position:relative;height:100%;overflow:hidden;border-radius: var(--radius);border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.04);box-shadow: var(--shadow);}
+    .slide{position:absolute;inset:0;padding:44px 46px;display:grid;grid-template-rows:auto auto 1fr;gap:18px;opacity:0;transform: translateX(18px) scale(.99);transition: opacity .28s ease, transform .28s ease;pointer-events:none;}
+    .slide.active{opacity:1;transform: translateX(0) scale(1);pointer-events:auto;}
+    .title{font-size:44px;line-height:1.06;margin:0;letter-spacing:-.03em;max-width: 1100px;}
+    .subtitle{margin:0;color:var(--muted);font-size:18px;line-height:1.6;max-width: 1080px;}
+
+    .grid{display:grid;grid-template-columns: 1.25fr .75fr;gap:18px;align-items:start;}
+    .two-col{display:grid;grid-template-columns: 1fr 1fr;gap:16px;}
+    .three-col{display:grid;grid-template-columns: 1fr 1fr 1fr;gap:14px;}
+
+    .pipeline{display:grid;grid-template-columns: 1fr 70px 1fr 70px 1fr 70px 1fr;gap:0;align-items:stretch;}
+    .box{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);padding:14px;display:flex;flex-direction:column;gap:8px;min-height: 130px;}
+    .box .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:800; margin:0}
+    .box .v{margin:0; font-size:16px; font-weight:900; letter-spacing:-.01em}
+    .box .d{margin:0; color:var(--muted); line-height:1.6; font-size:14px}
+    .arrow{display:grid;place-items:center;}
+    .arrow svg{opacity:.95}
+    .arrow .glow{filter: drop-shadow(0 10px 20px rgba(106,166,255,.18));}
+
+    .split{display:grid;grid-template-columns: 1fr 1fr;gap:16px;}
+    .panel{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);padding:18px;min-height: 260px;position:relative;overflow:hidden;}
+    .panel:before{content:"";position:absolute;inset:-60px -60px auto auto;width:180px;height:180px;border-radius:50%;background: radial-gradient(circle at 30% 30%, rgba(106,166,255,.20), transparent 60%);opacity:.85;}
+    .panel.bad:before{background: radial-gradient(circle at 30% 30%, rgba(255,211,106,.16), transparent 60%);}
+    .panel h3{margin:0 0 10px 0;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+    .panel .big{margin:0;font-size:24px;font-weight:950;letter-spacing:-.02em;}
+    .panel ul{margin:12px 0 0 0;padding-left:18px;line-height:1.6;}
+    .panel li{margin:8px 0}
+    .panel .tag{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background: rgba(0,0,0,.18);color:var(--muted);font-weight:800;font-size:12px;margin-top:12px;}
+    .panel .tag b{color:var(--text)}
+
+    .timeline{display:grid;gap:12px;}
+    .step{display:grid;grid-template-columns: 44px 1fr;gap:12px;align-items:start;padding:14px;border-radius: 18px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);}
+    .step .n{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background: linear-gradient(135deg, rgba(106,166,255,.25), rgba(124,240,199,.18));border:1px solid rgba(255,255,255,.14);font-weight:900;}
+    .step .h{margin:0;font-weight:900;font-size:16px}
+    .step .p{margin:6px 0 0 0;color:var(--muted);line-height:1.6}
+
+    .simwrap{border-radius:18px;border:1px solid rgba(255,255,255,.12);background: rgba(0,0,0,.15);padding:12px;display:grid;grid-template-columns: 1fr 1fr;gap:12px;min-height: 300px;}
+    canvas{width:100%;height:100%;border-radius: 16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.03);}
+    .legend{display:grid;gap:10px;align-content:start;}
+    .legend .item{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.05);}
+    .swatch{width:12px;height:12px;border-radius:4px;margin-top:3px;background: linear-gradient(135deg,var(--accent),var(--accent2));box-shadow: 0 0 0 6px rgba(106,166,255,.10);flex:0 0 auto;}
+    .legend b{color:var(--text)}
+    .legend p{margin:0;color:var(--muted);line-height:1.5}
+
+    footer{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:13px;}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    button{appearance:none;border:1px solid rgba(255,255,255,.14);background: rgba(255,255,255,.06);color:var(--text);padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:800;transition: transform .08s ease, background .15s ease;}
+    button:hover{background: rgba(255,255,255,.09)}
+    button:active{transform: translateY(1px)}
+    .progress{width: 240px;height:10px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;border:1px solid rgba(255,255,255,.10);}
+    .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+
+    /* Mobile scroll story */
+    body.mobile{overflow:auto;}
+    body.mobile .deck{height:auto;grid-template-rows:auto auto auto;padding:16px;gap:12px;}
+    body.mobile main#stage{position:static;height:auto;overflow:visible;background: transparent;border:none;box-shadow:none;}
+    body.mobile .slide{position:static;opacity:1 !important;transform:none !important;pointer-events:auto;padding:18px 0;display:block;}
+    body.mobile .slide + .slide{border-top: 1px solid rgba(255,255,255,.10);padding-top: 22px;}
+    body.mobile .title{font-size:30px}
+    body.mobile .subtitle{font-size:16px}
+    body.mobile .grid{grid-template-columns: 1fr}
+    body.mobile .two-col{grid-template-columns: 1fr}
+    body.mobile .three-col{grid-template-columns: 1fr}
+    body.mobile .pipeline{grid-template-columns: 1fr; gap:12px}
+    body.mobile .arrow{display:none}
+    body.mobile .split{grid-template-columns: 1fr}
+    body.mobile .simwrap{grid-template-columns: 1fr}
+    body.mobile footer{display:none}
+
+    .mobileNav{display:none;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:12px;border-radius: 18px;border:1px solid rgba(255,255,255,.12);background: rgba(255,255,255,.045);box-shadow: 0 14px 40px rgba(0,0,0,.20);position:sticky;top: 10px;z-index: 20;}
+    body.mobile .mobileNav{display:flex}
+    .mobileNav .left{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .mobileNav .right{display:flex;gap:10px;align-items:center}
+    .mobileNav a{text-decoration:none;color: var(--text);font-weight:900;padding:10px 12px;border-radius: 14px;border:1px solid rgba(255,255,255,.14);background: rgba(255,255,255,.06);box-shadow: 0 10px 24px rgba(0,0,0,.18);}
+    .mobileNav .mini{color: var(--muted);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;}
+  </style>
 </head>
 <body>
-<div class="deck">
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <p class="kicker">TFG · Gemelo Digital · Lavandería Industrial</p>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
-          <span class="pill"><b>Alumno:</b> Benjamín Mesa Manzano</span>
-          <span class="pill"><b>Empresa:</b> Lavandería Solymar S.L.</span>
+  <div class="deck">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <p class="kicker">TFG · Ingeniería en Organización Industrial</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+            <span class="pill"><b>Alumno:</b> Benjamín Mesa Manzano</span>
+            <span class="pill"><b>Empresa:</b> Lavandería Solymar S.L.</span>
+          </div>
         </div>
+      </div>
+      <div class="meta">
+        <span class="pill"><b>Enfoque:</b> Gemelo Digital</span>
+        <span class="pill"><b>Implementación:</b> Python + SimPy</span>
+        <span class="pill"><b>Salida:</b> Simulación + escenarios</span>
+      </div>
+    </header>
+
+    <div class="mobileNav" aria-label="Navegación móvil">
+      <div class="left">
+        <span class="mini">presentación interactiva</span>
+        <span class="pill"><b>Tip:</b> desliza</span>
+      </div>
+      <div class="right">
+        <a href="#roadmap">Roadmap</a>
+        <a href="#cierre">Final</a>
       </div>
     </div>
-    <div class="meta">
-      <span class="pill"><b>Implementación:</b> Python + SimPy</span>
-      <span class="pill"><b>Enfoque:</b> Simulación + escenarios</span>
-      <span class="pill"><b>Meta:</b> decisiones defendibles</span>
-    </div>
-  </header>
 
-  <main>
-    <!-- 1 -->
-    <section class="slide active">
-      <h2 class="title">Un gemelo digital para decidir antes de actuar</h2>
-      <p class="subtitle">
-        Presentación visual del proyecto: de una operación real con presión y variabilidad, a un modelo digital capaz de
-        reproducir el comportamiento del sistema y probar mejoras sin riesgo.
-      </p>
-      <div class="grid">
-        <div class="hero">
-          <div class="overlay">
-            <div class="badge"><span class="dot"></span><b>Proyecto aplicado</b> · planta real + reglas reales</div>
-            <p class="big">Lavandería industrial Solymar: operación real, decisiones reales</p>
-            <p class="small">
-              La ambición del TFG es convertir la experiencia operativa en un sistema reproducible:
-              simular el proceso completo, detectar cuellos de botella y comparar escenarios.
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Qué voy a demostrar</h3>
-          <ul>
-            <li>Que el comportamiento de la planta puede representarse con un modelo de simulación.</li>
-            <li>Que el modelo permite anticipar presión y colas antes de que aparezcan.</li>
-            <li>Que se pueden justificar mejoras (y descartar ideas) comparando escenarios.</li>
-          </ul>
-          <div style="height:14px"></div>
-          <div class="callout">
-            <b>Idea clave:</b> no es “hacer un diagrama”, es construir un laboratorio digital para decidir mejor.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2 -->
-    <section class="slide">
-      <h2 class="title">Qué es un gemelo digital (en una frase)</h2>
-      <p class="subtitle">
-        Una copia funcional del sistema real: recibe entradas, consume recursos, genera colas y devuelve resultados medibles.
-        Sirve para experimentar sin tocar la operación.
-      </p>
-
-      <div class="pipeline">
-        <div class="box">
-          <p class="k">Sistema real</p>
-          <p class="v">Lavandería en producción</p>
-          <p class="d">Entrada de ropa, procesos, turnos, reglas de prioridad, calendario de entrega.</p>
-        </div>
-        <div class="arrow">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="box">
-          <p class="k">Mediciones + reglas</p>
-          <p class="v">Cómo se trabaja de verdad</p>
-          <p class="d">Tiempos observados, decisiones reales (prioridad/urgencia), tareas humanas y restricciones.</p>
-        </div>
-        <div class="arrow">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="box">
-          <p class="k">Modelo digital</p>
-          <p class="v">Simulación (evento discreto)</p>
-          <p class="d">Recursos, colas, prioridades y variabilidad en un entorno controlado.</p>
-        </div>
-        <div class="arrow">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="box">
-          <p class="k">Decisión</p>
-          <p class="v">Escenarios comparables</p>
-          <p class="d">Elegir políticas operativas con argumentos y evidencia.</p>
-        </div>
-      </div>
-
-      <div style="height:16px"></div>
-
-      <div class="three">
-        <div class="card">
-          <h3>Qué NO es</h3>
-          <ul>
-            <li>Un PowerPoint con flechas.</li>
-            <li>Una estimación estática.</li>
-            <li>Un “cálculo suelto”.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Qué SÍ es</h3>
-          <ul>
-            <li>Un modelo que reproduce comportamiento.</li>
-            <li>Un laboratorio para probar cambios.</li>
-            <li>Una herramienta explicable.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Por qué interesa</h3>
-          <ul>
-            <li>Visibilidad: dónde se atasca.</li>
-            <li>Anticipación: antes del pico.</li>
-            <li>Mejora defendible: con escenarios.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3 -->
-    <section class="slide">
-      <h2 class="title">La lavandería como sistema (no como tareas sueltas)</h2>
-      <p class="subtitle">
-        La operación real combina flujos distintos (ropa plana y mantelería), recursos compartidos y un calendario de entrega
-        que marca la prioridad. El gemelo digital modelará esa lógica.
-      </p>
-
-      <div class="split">
-        <div class="panel bad">
-          <h3>De dónde partimos</h3>
-          <p class="big">Decisión reactiva</p>
-          <ul>
-            <li>Cuando entra volumen y se acerca una entrega, la prioridad cambia rápidamente.</li>
-            <li>Las tareas humanas (carga/descarga/estirado/alimentación) son limitaciones reales.</li>
-            <li>La plancha concentra la “presión” y condiciona el resto.</li>
-            <li>La mantelería aporta valor pero compite por capacidad en momentos críticos.</li>
-          </ul>
-          <div class="tag"><b>Riesgo</b> · cuellos + horas extra</div>
-        </div>
-
-        <div class="panel">
-          <h3>A dónde queremos llegar</h3>
-          <p class="big">Visibilidad y control</p>
-          <ul>
-            <li>Ver el sistema completo: colas, recursos y prioridades.</li>
-            <li>Simular políticas: adelantar recogidas, reforzar tareas puntuales, planificar mantelería por stock.</li>
-            <li>Evaluar “qué pasaría si…” sin tocar la operación.</li>
-            <li>Convertir experiencia en reglas y decisiones defendibles.</li>
-          </ul>
-          <div class="tag"><b>Objetivo</b> · estabilidad en días críticos</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4 -->
-    <section class="slide">
-      <h2 class="title">Alcance del gemelo: de entrada a salida</h2>
-      <p class="subtitle">
-        Empezamos por ropa plana (hoteles) y escalamos hacia mantelería renting. El reparto se integra como calendario
-        y restricciones de entrega, ampliable a logística detallada si conviene.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Qué se modela</h3>
-          <div class="timeline">
-            <div class="step">
-              <div class="n">1</div>
-              <div>
-                <p class="h">Ropa plana (hoteles)</p>
-                <p class="p">Recepción → lavado → separación de flujos → secado → plancha → plegado/empaquetado → expedición.</p>
-              </div>
-            </div>
-            <div class="step">
-              <div class="n">2</div>
-              <div>
-                <p class="h">Mantelería renting</p>
-                <p class="p">Producción mezclada + inventario por referencias + preparación por pedidos.</p>
-              </div>
-            </div>
-            <div class="step">
-              <div class="n">3</div>
-              <div>
-                <p class="h">Reglas y restricciones</p>
-                <p class="p">Prioridades por entrega, turnos, disponibilidad de operarios y políticas de contingencia.</p>
-              </div>
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-          <div class="callout">
-            <b>Principio:</b> empezar simple, validar, y añadir realismo con mediciones y reglas.
-          </div>
-        </div>
-
-        <div style="display:grid; gap:16px;">
-          <div class="card">
-            <h3>Qué lo hace “realista”</h3>
-            <div class="chiprow">
-              <span class="chip">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M5 20V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v12" stroke="rgba(124,240,199,.95)" stroke-width="2.2" stroke-linecap="round"/><path d="M5 13h14" stroke="rgba(106,166,255,.95)" stroke-width="2.2" stroke-linecap="round"/></svg>
-                <b>Turnos</b> y disponibilidad
-              </span>
-              <span class="chip">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h7l-2-2" stroke="rgba(106,166,255,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12h-7l2 2" stroke="rgba(255,211,106,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <b>Colas</b> y prioridades
-              </span>
-              <span class="chip">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h10v10H7z" stroke="rgba(255,211,106,.95)" stroke-width="2.2"/><path d="M4 12h3M17 12h3" stroke="rgba(124,240,199,.95)" stroke-width="2.2" stroke-linecap="round"/></svg>
-                <b>Recursos</b> compartidos
-              </span>
-            </div>
-            <div style="height:12px"></div>
-            <p style="margin:0; color:var(--muted); line-height:1.55">
-              El gemelo no “supone” cómo trabajas: se calibra con cronometraje, observación y reglas reales.
-            </p>
-          </div>
-
-          <div class="photo">
+    <main id="stage" aria-live="polite">
+      <section class="slide active" id="inicio">
+        <h2 class="title">Del “sacar el día” a decidir con un gemelo digital</h2>
+        <p class="subtitle">Dónde estamos, qué duele en días críticos y cómo el gemelo digital permitirá anticipar, simular y decidir.</p>
+        <div class="grid">
+          <div class="hero">
             <div class="overlay">
-              <p class="t">Mantelería renting: stock + pedidos</p>
-              <p class="d">Producción mezclada y salida por referencias. Perfecto para simular políticas de stock mínimo y ventanas de plancha.</p>
+              <div class="badge"><span class="dot"></span><b>Proyecto aplicado</b> · planta real + datos reales</div>
+              <p class="big">Industria real, restricciones reales, decisiones reales</p>
+              <p class="small">El valor no está en “dibujar un proceso”, sino en construir un modelo que se comporte como la planta y probar mejoras sin riesgo.</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Idea central</h3>
+            <p>Un gemelo digital es una <b>copia funcional</b> del sistema: reproduce colas, prioridades, recursos humanos y el efecto real de cambios operativos.</p>
+            <div style="height:14px"></div>
+            <div class="chiprow">
+              <span class="chip"><span class="dot"></span> <b>Simular</b> sin parar</span>
+              <span class="chip"><span class="dot"></span> <b>Medir</b> cuellos</span>
+              <span class="chip"><span class="dot"></span> <b>Elegir</b> escenarios</span>
+            </div>
+            <div style="height:14px"></div>
+            <div class="callout">Industria 4.0 aplicada: convertir operación y datos en decisiones.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="partimos">
+        <h2 class="title">Dónde partimos</h2>
+        <p class="subtitle">La planta funciona, pero en picos la planificación es reactiva y el sistema es complejo por calendario, tipos de prenda y tareas humanas.</p>
+        <div class="split">
+          <div class="panel bad">
+            <h3>Operación actual</h3>
+            <p class="big">Decisiones reactivas</p>
+            <ul>
+              <li>Priorización por urgencias del calendario.</li>
+              <li>Cuellos también humanos: cargar/descargar/estirar/alimentar equipos.</li>
+              <li>Cuando se acumula, cuesta justificar qué tocar sin romper el servicio.</li>
+              <li>Mantelería renting añade stock + pedidos.</li>
+            </ul>
+            <div class="tag"><b>Riesgo</b> · presión en picos</div>
+          </div>
+          <div class="panel">
+            <h3>Lo que buscamos</h3>
+            <p class="big">Visibilidad y control</p>
+            <ul>
+              <li>Ver colas y causas (máquinas, personas, reglas).</li>
+              <li>Anticipar antes de que “explote”.</li>
+              <li>Probar políticas sin riesgo: prioridades, refuerzos, ventanas, stock.</li>
+              <li>Convertir experiencia en decisiones defendibles.</li>
+            </ul>
+            <div class="tag"><b>Resultado</b> · decidir con simulación</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="gemelo">
+        <h2 class="title">Qué es un gemelo digital (sin humo)</h2>
+        <p class="subtitle">Un modelo que “vive” como la planta: entradas → recursos → colas → salidas. Permite experimentar sin riesgo.</p>
+        <div class="pipeline">
+          <div class="box"><p class="k">Sistema real</p><p class="v">Operación diaria</p><p class="d">Flujos, recursos, prioridades y calendario.</p></div>
+          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="box"><p class="k">Datos y reglas</p><p class="v">Cómo trabaja de verdad</p><p class="d">Tiempos medidos, turnos, prioridades, restricciones.</p></div>
+          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="box"><p class="k">Modelo digital</p><p class="v">Simulación</p><p class="d">Colas y recursos en entorno repetible.</p></div>
+          <div class="arrow"><svg class="glow" width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M5 12h12" stroke="rgba(106,166,255,.95)" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="rgba(124,240,199,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="box"><p class="k">Decisión</p><p class="v">Escenarios</p><p class="d">Comparar políticas y elegir la mejor.</p></div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="three-col">
+          <div class="card"><h3>Qué NO es</h3><ul><li>Un diagrama bonito.</li><li>Una estimación estática.</li><li>Un “Excel con flechas”.</li></ul></div>
+          <div class="card"><h3>Qué SÍ es</h3><ul><li>Modelo con comportamiento realista.</li><li>Laboratorio para probar cambios.</li><li>Decisiones justificables.</li></ul></div>
+          <div class="card"><h3>Qué aporta</h3><ul><li>Visibilidad.</li><li>Anticipación.</li><li>Mejora basada en datos.</li></ul></div>
+        </div>
+      </section>
+
+      <section class="slide" id="alcance">
+        <h2 class="title">Qué vamos a construir</h2>
+        <p class="subtitle">Gemelo digital de ropa plana + mantelería renting, con calendario de entrega como restricción (logística ampliable).</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Alcance por fases</h3>
+            <div class="timeline">
+              <div class="step"><div class="n">1</div><div><p class="h">Ropa plana</p><p class="p">Entrada a salida con reglas reales.</p></div></div>
+              <div class="step"><div class="n">2</div><div><p class="h">Mantelería renting</p><p class="p">Producción + stock + pedidos.</p></div></div>
+              <div class="step"><div class="n">3</div><div><p class="h">Calendario como restricción</p><p class="p">Prioridades por entrega y contingencias.</p></div></div>
+            </div>
+          </div>
+          <div style="display:grid; gap:16px;">
+            <div class="card">
+              <h3>Lenguaje del sistema</h3>
+              <p><b>Lotes</b>, <b>colas</b>, <b>recursos</b>, <b>turnos</b>, <b>prioridades</b> y <b>entregas</b>.</p>
+              <div style="height:12px"></div>
+              <div class="chiprow">
+                <span class="chip"><span class="dot"></span> <b>Entrada</b></span>
+                <span class="chip"><span class="dot"></span> <b>Proceso</b></span>
+                <span class="chip"><span class="dot"></span> <b>Salida</b></span>
+              </div>
+            </div>
+            <div class="photo"><div class="overlay"><p class="t">Mantelería: producir mezclado, servir por stock</p><p class="d">Se mezcla para producir, pero se sirve por referencias y pedidos.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="herramientas">
+        <h2 class="title">Por qué Python + SimPy</h2>
+        <p class="subtitle">Stack transparente, reproducible y ampliable: validar con mediciones reales, ejecutar escenarios y analizar resultados.</p>
+        <div class="two-col">
+          <div class="card">
+            <h3>SimPy</h3>
+            <ul><li>Colas y recursos: máquinas, operarios, turnos.</li><li>Reglas reales: prioridad por entrega, ventanas, refuerzos.</li><li>Escenarios A/B sin tocar la planta.</li></ul>
+            <div style="height:12px"></div>
+            <div class="callout">El modelo debe ser <b>explicable</b> y defendible.</div>
+          </div>
+          <div class="card">
+            <h3>Herramientas</h3>
+            <ul><li><b>Python</b> + <b>SimPy</b></li><li><b>Pandas</b> para datos</li><li><b>Matplotlib</b> para gráficas</li><li>Captura rápida en <b>Excel/Sheets</b></li></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="demo">
+        <h2 class="title">Demo conceptual</h2>
+        <p class="subtitle">En portátil se anima; en móvil se muestra como bloque (el gemelo real corre en Python).</p>
+        <div class="simwrap">
+          <canvas id="sim" width="900" height="520"></canvas>
+          <div class="legend">
+            <div class="item"><span class="swatch"></span><div><p><b>Trabajos</b></p><p>Entradas que generan colas.</p></div></div>
+            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(255,211,106,.95),rgba(106,166,255,.75))"></span><div><p><b>Recursos</b></p><p>Máquinas y operarios limitan el flujo.</p></div></div>
+            <div class="item"><span class="swatch" style="background: linear-gradient(135deg,rgba(124,240,199,.95),rgba(255,211,106,.75))"></span><div><p><b>Prioridad</b></p><p>Urgencias suben en cola.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="roadmap">
+        <h2 class="title">Roadmap del TFG</h2>
+        <p class="subtitle">Plan de ejecución para llegar a un modelo calibrado, validado y defendible.</p>
+        <div class="two-col">
+          <div class="card">
+            <h3>Hitos</h3>
+            <div class="timeline">
+              <div class="step"><div class="n">1</div><div><p class="h">Mapa + reglas</p><p class="p">Alcance y lógica real.</p></div></div>
+              <div class="step"><div class="n">2</div><div><p class="h">Medición</p><p class="p">Datos en planta + calibración.</p></div></div>
+              <div class="step"><div class="n">3</div><div><p class="h">Validación + escenarios</p><p class="p">A/B y propuestas de mejora.</p></div></div>
+              <div class="step"><div class="n">4</div><div><p class="h">Memoria y defensa</p><p class="p">Documentación y conclusiones.</p></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Resultado final</h3>
+            <div class="callout">Decisiones defendibles: qué cambiar, cuándo y por qué.</div>
+            <div style="height:12px"></div>
+            <div class="hero" style="min-height:240px;">
+              <div class="overlay">
+                <div class="badge"><b>Lavandería Solymar</b> · Gemelo Digital</div>
+                <p class="big">Un TFG aplicado que se defiende con resultados</p>
+                <p class="small">Portátil: pulsa <b>F</b> para pantalla completa.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 5 -->
-    <section class="slide">
-      <h2 class="title">Con qué herramientas (y por qué)</h2>
-      <p class="subtitle">
-        La implementación busca claridad y rigor: código entendible, resultados reproducibles y validación con datos reales.
-      </p>
-
-      <div class="two">
-        <div class="card">
-          <h3>Python + SimPy</h3>
-          <ul>
-            <li><b>SimPy</b>: simular eventos discretos (colas, recursos, prioridades) de forma natural.</li>
-            <li><b>Python</b>: reglas, escenarios, generación de resultados y automatización de experimentos.</li>
-            <li>Modelo “explicable”: se puede defender en la memoria y en la defensa.</li>
-          </ul>
-          <div style="height:12px"></div>
-          <div class="callout"><b>Ventaja clave:</b> el gemelo se puede ampliar sin rehacerlo (más flujos, más reglas, más detalle).</div>
-        </div>
-
-        <div class="card">
-          <h3>Datos + análisis</h3>
-          <ul>
-            <li><b>Excel/Sheets</b>: captura rápida en planta (cronometrajes y observaciones).</li>
-            <li><b>Pandas</b>: limpieza y parametrización de tiempos/variabilidad.</li>
-            <li><b>Matplotlib</b>: gráficas de colas, utilización y comparación de escenarios.</li>
-          </ul>
-          <div style="height:12px"></div>
-          <p style="margin:0; color:var(--muted); line-height:1.55">
-            El modelo se valida por iteraciones: medir → ajustar → comparar con realidad → volver a medir.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6 -->
-    <section class="slide">
-      <h2 class="title">Demo conceptual: entradas, colas y prioridades</h2>
-      <p class="subtitle">
-        Una animación para visualizar el concepto (el gemelo real corre en Python). Sirve para explicar la idea en defensa.
-      </p>
-
-      <div class="simwrap">
-        <canvas id="sim" width="900" height="520"></canvas>
-        <div class="legend">
-          <div class="item">
-            <span class="swatch" style="background:linear-gradient(135deg,var(--a),var(--b))"></span>
-            <div><p style="margin:0"><b>Trabajos</b></p><p>Entradas que avanzan por el sistema y generan colas si faltan recursos.</p></div>
+      <section class="slide" id="cierre">
+        <h2 class="title">Cierre</h2>
+        <p class="subtitle">Transformar experiencia en simulación: ver el sistema completo, anticipar cuellos y elegir la mejor acción antes de ejecutarla.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Mensaje final</h3>
+            <p style="font-size:18px;font-weight:900;margin:0 0 10px 0;">Lo que hoy se decide con intuición, mañana se decide con simulación.</p>
+            <p style="color:var(--muted);margin:0;">En móvil se verá como “scroll story”. En portátil, como diapositivas con navegación.</p>
+            <div style="height:14px"></div>
+            <div class="chiprow">
+              <span class="chip"><span class="dot"></span> Visibilidad</span>
+              <span class="chip"><span class="dot"></span> Anticipación</span>
+              <span class="chip"><span class="dot"></span> Mejora defendible</span>
+            </div>
           </div>
-          <div class="item">
-            <span class="swatch" style="background:linear-gradient(135deg,rgba(255,211,106,.95),rgba(106,166,255,.75))"></span>
-            <div><p style="margin:0"><b>Recursos</b></p><p>Máquinas y operarios limitan el flujo. El gemelo permite probar refuerzos puntuales.</p></div>
-          </div>
-          <div class="item">
-            <span class="swatch" style="background:linear-gradient(135deg,rgba(124,240,199,.95),rgba(255,211,106,.75))"></span>
-            <div><p style="margin:0"><b>Prioridades</b></p><p>Los trabajos urgentes “suben” en cola. Se mide impacto en servicio y estabilidad.</p></div>
-          </div>
-          <div class="callout">Esta demo es solo ilustrativa. Los resultados del TFG salen del gemelo en Python + SimPy.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7 -->
-    <section class="slide">
-      <h2 class="title">Qué escenarios interesa probar</h2>
-      <p class="subtitle">
-        El gemelo sirve para comparar políticas operativas sin “apostar” a ciegas. Se busca reducir incertidumbre y presión.
-      </p>
-
-      <div class="three">
-        <div class="card">
-          <h3>Logística y calendario</h3>
-          <ul>
-            <li>Adelantar recogidas para repartir carga.</li>
-            <li>Convertir picos en producción distribuida.</li>
-            <li>Probar reglas de prioridad por entrega.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Refuerzos puntuales</h3>
-          <ul>
-            <li>Cuándo compensa una segunda persona en tareas críticas.</li>
-            <li>Definir ventanas de refuerzo en lugar de improvisar.</li>
-            <li>Comparar coste vs efecto real.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Mantelería como stock</h3>
-          <ul>
-            <li>Planificar por stock mínimo.</li>
-            <li>Ventanas de plancha de baja presión.</li>
-            <li>Evitar que canibalice la ropa plana.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style="height:16px"></div>
-
-      <div class="split">
-        <div class="panel">
-          <h3>Escenario A</h3>
-          <p class="big">Reglas actuales</p>
-          <ul>
-            <li>Prioridad por experiencia y urgencias del día.</li>
-            <li>Refuerzos cuando ya se nota el atasco.</li>
-            <li>Mantelería entra “cuando hay hueco”.</li>
-          </ul>
-          <div class="tag"><b>Medible</b> · colas y estabilidad</div>
-        </div>
-        <div class="panel">
-          <h3>Escenario B</h3>
-          <p class="big">Reglas optimizadas</p>
-          <ul>
-            <li>Prioridad formal por fecha de entrega.</li>
-            <li>Refuerzos definidos por señales del gemelo.</li>
-            <li>Mantelería planificada por stock.</li>
-          </ul>
-          <div class="tag"><b>Objetivo</b> · servicio sin “fuegos”</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8 -->
-    <section class="slide">
-      <h2 class="title">Resultado esperado del TFG</h2>
-      <p class="subtitle">
-        Un modelo calibrado, un conjunto de escenarios y recomendaciones defendibles: qué cambiar, cuándo y por qué.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Entregables</h3>
-          <div class="timeline">
-            <div class="step"><div class="n">✓</div><div><p class="h">Modelo de simulación (Python)</p><p class="p">Código documentado + estructura de datos + reglas.</p></div></div>
-            <div class="step"><div class="n">✓</div><div><p class="h">Validación con mediciones reales</p><p class="p">Ajuste iterativo y comparación con comportamiento observado.</p></div></div>
-            <div class="step"><div class="n">✓</div><div><p class="h">Experimentos y conclusiones</p><p class="p">Comparativa de escenarios y recomendaciones prácticas.</p></div></div>
-          </div>
-          <div style="height:12px"></div>
-          <div class="callout"><b>Meta:</b> que el profesor vea un proyecto real, aplicado y defendible con metodología.</div>
-        </div>
-
-        <div class="card">
-          <h3>Roadmap</h3>
-          <div class="timeline">
-            <div class="step"><div class="n">1</div><div><p class="h">Mapa de procesos + alcance</p><p class="p">Ropa plana → mantelería → calendario.</p></div></div>
-            <div class="step"><div class="n">2</div><div><p class="h">Mediciones en planta</p><p class="p">Cronometrajes y reglas operativas.</p></div></div>
-            <div class="step"><div class="n">3</div><div><p class="h">Calibración + validación</p><p class="p">Iterar hasta que el modelo se parezca a la realidad.</p></div></div>
-            <div class="step"><div class="n">4</div><div><p class="h">Escenarios + análisis</p><p class="p">Decisiones comparables y conclusiones.</p></div></div>
+          <div class="hero">
+            <div class="overlay">
+              <div class="badge"><b>Presentación interactiva</b> · lista para compartir</div>
+              <p class="big">¿Preguntas?</p>
+              <p class="small">Portátil: ← → / Espacio · Móvil: desliza y usa accesos arriba.</p>
+            </div>
           </div>
         </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="controls">
+        <button id="prev" type="button">← Anterior</button>
+        <button id="next" type="button">Siguiente →</button>
+        <button id="fs" type="button">Pantalla completa (F)</button>
       </div>
-    </section>
-
-    <!-- 9 -->
-    <section class="slide">
-      <h2 class="title">Cierre</h2>
-      <p class="subtitle">
-        Este TFG transforma una operación real en una herramienta de decisión. Lo importante no es “simular por simular”,
-        sino reducir incertidumbre y sostener el servicio en los días más exigentes.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Mensaje final</h3>
-          <p style="font-size:18px; font-weight:950; letter-spacing:-.01em; margin:0 0 10px 0;">
-            Lo que hoy se decide con intuición, mañana se decide con simulación.
-          </p>
-          <p style="margin:0; color:var(--muted); line-height:1.65">
-            El gemelo digital permite ver el sistema completo, entender por qué aparece el cuello de botella
-            y elegir la acción que realmente mejora el resultado, antes de ejecutar nada en planta.
-          </p>
-          <div style="height:14px"></div>
-          <div class="chiprow">
-            <span class="chip"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));display:inline-block;box-shadow:0 0 0 6px rgba(106,166,255,.10)"></span> Visibilidad</span>
-            <span class="chip"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));display:inline-block;box-shadow:0 0 0 6px rgba(106,166,255,.10)"></span> Anticipación</span>
-            <span class="chip"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));display:inline-block;box-shadow:0 0 0 6px rgba(106,166,255,.10)"></span> Mejora defendible</span>
-          </div>
-        </div>
-
-        <div class="hero" style="background:
-          linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.70)),
-          url('assets/instalaciones.jpg') center/cover no-repeat;">
-          <div class="overlay">
-            <div class="badge"><b>Lavandería Solymar S.L.</b> · Gemelo Digital (TFG)</div>
-            <p class="big">¿Preguntas?</p>
-            <p class="small">Navega con ← → · Pulsa <b>F</b> para pantalla completa.</p>
-          </div>
-        </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div id="counter" class="pill">1 / 8</div>
       </div>
-    </section>
-  </main>
+    </footer>
+  </div>
 
-  <footer>
-    <div class="controls">
-      <button id="prev" type="button">← Anterior</button>
-      <button id="next" type="button">Siguiente →</button>
-      <button id="fs" type="button">Pantalla completa (F)</button>
-      <span class="hint">Teclas: ← → / Espacio · Home · End</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
-      <div id="counter" class="pill">1 / 9</div>
-    </div>
-  </footer>
-</div>
+  <script>
+    const mq = window.matchMedia("(max-width: 900px)");
+    const body = document.body;
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const counter = document.getElementById('counter');
+    const bar = document.getElementById('bar');
+    let i = 0;
 
-<script>
-const slides=[...document.querySelectorAll('.slide')];
-let i=0;
-const counter=document.getElementById('counter');
-const bar=document.getElementById('bar');
-function render(){
-  slides.forEach((s,idx)=>s.classList.toggle('active', idx===i));
-  counter.textContent=`${i+1} / ${slides.length}`;
-  bar.style.width=`${((i+1)/slides.length)*100}%`;
-  if(i===5) startSim(); else stopSim();
-}
-function next(){ if(i<slides.length-1){ i++; render(); } }
-function prev(){ if(i>0){ i--; render(); } }
-document.getElementById('next').addEventListener('click', next);
-document.getElementById('prev').addEventListener('click', prev);
-function toggleFS(){
-  const el=document.documentElement;
-  if(!document.fullscreenElement) el.requestFullscreen?.();
-  else document.exitFullscreen?.();
-}
-document.getElementById('fs').addEventListener('click', toggleFS);
-window.addEventListener('keydown', (e)=>{
-  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){ e.preventDefault(); next(); }
-  if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
-  if(e.key==='Home'){ i=0; render(); }
-  if(e.key==='End'){ i=slides.length-1; render(); }
-  if(e.key.toLowerCase()==='f'){ e.preventDefault(); toggleFS(); }
-});
-
-// Conceptual sim animation
-const canvas=document.getElementById('sim');
-const ctx=canvas?.getContext('2d');
-let raf=null, t0=0, jobs=[];
-const stations=[
-  {name:'Entrada', x:90,  y:95,  r:26},
-  {name:'Lavado',  x:300, y:95,  r:26},
-  {name:'Secado',  x:510, y:95,  r:26},
-  {name:'Plancha', x:300, y:290, r:26},
-  {name:'Salida',  x:720, y:190, r:26},
-];
-function resizeCanvas(){
-  if(!canvas) return;
-  const rect=canvas.getBoundingClientRect();
-  const dpr=Math.max(1, window.devicePixelRatio||1);
-  canvas.width=Math.floor(rect.width*dpr);
-  canvas.height=Math.floor(rect.height*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-function spawnJob(){
-  const kind=Math.random()<0.55?'hotel':'mantel';
-  jobs.push({kind, stage:0, p:0, priority:Math.random()<0.22?1:0, jitter:(Math.random()*6-3), lastWasPlancha:undefined});
-}
-function link(a,b){
-  ctx.strokeStyle='rgba(106,166,255,.35)';
-  ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-}
-function draw(){
-  if(!ctx||!canvas) return;
-  const w=canvas.getBoundingClientRect().width;
-  const h=canvas.getBoundingClientRect().height;
-  ctx.clearRect(0,0,w,h);
-
-  ctx.globalAlpha=.35;
-  ctx.strokeStyle='rgba(255,255,255,.08)';
-  ctx.lineWidth=1;
-  for(let x=0;x<w;x+=32){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
-  for(let y=0;y<h;y+=32){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
-  ctx.globalAlpha=1;
-
-  link(stations[0],stations[1]);
-  link(stations[1],stations[2]);
-  link(stations[1],stations[3]);
-  link(stations[2],stations[4]);
-  link(stations[3],stations[4]);
-
-  for(const s of stations){
-    ctx.fillStyle='rgba(255,255,255,.05)';
-    ctx.strokeStyle='rgba(255,255,255,.18)';
-    ctx.lineWidth=2;
-    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle='rgba(236,243,255,.95)';
-    ctx.font='800 13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto';
-    ctx.textAlign='center';
-    ctx.fillText(s.name, s.x, s.y+s.r+18);
-  }
-
-  for(const j of jobs){
-    let a,b;
-    if(j.stage===0){ a=stations[0]; b=stations[1]; }
-    else if(j.stage===1){
-      a=stations[1];
-      if(j.lastWasPlancha===undefined){
-        j.lastWasPlancha = (j.kind==='mantel') ? true : (Math.random()<0.48);
-      }
-      b = j.lastWasPlancha ? stations[3] : stations[2];
-    } else {
-      a = j.lastWasPlancha ? stations[3] : stations[2];
-      b = stations[4];
+    function renderDesktop(){
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      if(counter) counter.textContent = `${i+1} / ${slides.length}`;
+      if(bar) bar.style.width = `${((i+1)/slides.length)*100}%`;
+      if (i === 5) startSim(); else stopSim();
     }
 
-    const x=a.x+(b.x-a.x)*j.p;
-    const y=a.y+(b.y-a.y)*j.p + j.jitter;
+    function setMode(){
+      if(mq.matches){
+        body.classList.remove("desktop");
+        body.classList.add("mobile");
+        slides.forEach(s => s.classList.add("active"));
+        stopSim();
+      }else{
+        body.classList.remove("mobile");
+        body.classList.add("desktop");
+        renderDesktop();
+      }
+    }
 
-    const urgent=j.priority===1;
-    const colA=urgent?'rgba(255,211,106,.95)':'rgba(106,166,255,.95)';
-    const colB=urgent?'rgba(124,240,199,.85)':'rgba(124,240,199,.95)';
+    function next(){ if(i < slides.length-1){ i++; renderDesktop(); } }
+    function prev(){ if(i > 0){ i--; renderDesktop(); } }
 
-    ctx.fillStyle=colA; ctx.strokeStyle=colB; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.roundRect(x-7,y-7,14,14,5); ctx.fill(); ctx.stroke();
-    ctx.globalAlpha=.18; ctx.fillStyle=colA;
-    ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
-    ctx.globalAlpha=1;
-  }
+    document.getElementById('next')?.addEventListener('click', () => { if(!mq.matches) next(); });
+    document.getElementById('prev')?.addEventListener('click', () => { if(!mq.matches) prev(); });
 
-  ctx.fillStyle='rgba(183,197,230,.95)';
-  ctx.font='700 12px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto';
-  ctx.textAlign='left';
-  ctx.fillText('Demo conceptual: entradas → colas → recursos → prioridades → salida', 14, h-14);
-}
-function tick(ts){
-  if(!t0) t0=ts;
-  const dt=(ts-t0)/1000; t0=ts;
-  if(Math.random()<0.08 && jobs.length<26) spawnJob();
-  for(const j of jobs){
-    const slow = (j.stage===1 && j.lastWasPlancha) || (j.stage===2 && j.lastWasPlancha);
-    const v = slow ? 0.13 : 0.20;
-    j.p += v*dt*(j.priority?1.05:1.0);
-    if(j.p>=1){ j.stage+=1; j.p=0; }
-  }
-  jobs = jobs.filter(j => j.stage <= 2.2);
-  draw();
-  raf=requestAnimationFrame(tick);
-}
-function startSim(){
-  if(!canvas||!ctx) return;
-  if(raf) return;
-  resizeCanvas();
-  jobs=[];
-  for(let k=0;k<10;k++) spawnJob();
-  t0=0;
-  raf=requestAnimationFrame(tick);
-  window.addEventListener('resize', resizeCanvas);
-}
-function stopSim(){
-  if(raf){ cancelAnimationFrame(raf); raf=null; }
-  window.removeEventListener('resize', resizeCanvas);
-  if(ctx&&canvas){
-    const w=canvas.getBoundingClientRect().width;
-    const h=canvas.getBoundingClientRect().height;
-    ctx.clearRect(0,0,w,h);
-  }
-}
-render();
-</script>
+    function toggleFS(){
+      if(mq.matches) return;
+      const el = document.documentElement;
+      if (!document.fullscreenElement) el.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+    document.getElementById('fs')?.addEventListener('click', toggleFS);
+
+    window.addEventListener('keydown', (e) => {
+      if(mq.matches) return;
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft'  || e.key === 'PageUp') { e.preventDefault(); prev(); }
+      if (e.key.toLowerCase() === 'f') { e.preventDefault(); toggleFS(); }
+    });
+
+    // Demo animation (desktop only)
+    const canvas = document.getElementById('sim');
+    const ctx = canvas?.getContext('2d');
+    let raf = null, t0 = 0, jobs = [];
+    const stations = [
+      {name:'Entrada', x:90,  y:95,  r:26},
+      {name:'Lavado',  x:300, y:95,  r:26},
+      {name:'Secado',  x:510, y:95,  r:26},
+      {name:'Plancha', x:300, y:290, r:26},
+      {name:'Salida',  x:720, y:190, r:26},
+    ];
+
+    function resizeCanvas(){
+      if(!canvas || !ctx) return;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    function spawnJob(){
+      const kind = Math.random() < 0.55 ? 'hotel' : 'mantel';
+      jobs.push({kind, stage:0, p:0, priority: Math.random()<0.22 ? 1 : 0, jitter:(Math.random()*6-3)});
+    }
+
+    function draw(){
+      if(!ctx || !canvas) return;
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      ctx.clearRect(0,0,w,h);
+
+      ctx.globalAlpha = 0.32;
+      ctx.strokeStyle = 'rgba(255,255,255,.08)';
+      ctx.lineWidth = 1;
+      for(let x=0; x<w; x+=32){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+      for(let y=0; y<h; y+=32){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+      ctx.globalAlpha = 1;
+
+      function link(a,b){
+        ctx.strokeStyle = 'rgba(106,166,255,.35)';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+      link(stations[0], stations[1]);
+      link(stations[1], stations[2]);
+      link(stations[1], stations[3]);
+      link(stations[2], stations[4]);
+      link(stations[3], stations[4]);
+
+      for(const s of stations){
+        ctx.fillStyle = 'rgba(255,255,255,.05)';
+        ctx.strokeStyle = 'rgba(255,255,255,.18)';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = 'rgba(236,243,255,.95)';
+        ctx.font = '800 13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto';
+        ctx.textAlign = 'center';
+        ctx.fillText(s.name, s.x, s.y + s.r + 18);
+      }
+
+      for(const j of jobs){
+        const isMantel = j.kind === 'mantel';
+        let a,b;
+        if(j.stage===0){ a=stations[0]; b=stations[1]; }
+        else if(j.stage===1){ a=stations[1]; b=(isMantel||Math.random()<0.45)?stations[3]:stations[2]; }
+        else { a=j.lastWasPlancha?stations[3]:stations[2]; b=stations[4]; }
+
+        const x = a.x + (b.x-a.x)*j.p;
+        const y = a.y + (b.y-a.y)*j.p + j.jitter;
+
+        const urgent = j.priority===1;
+        const colA = urgent ? 'rgba(255,211,106,.95)' : 'rgba(106,166,255,.95)';
+        const colB = urgent ? 'rgba(124,240,199,.85)' : 'rgba(124,240,199,.95)';
+
+        ctx.fillStyle = colA; ctx.strokeStyle = colB; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.roundRect(x-7,y-7,14,14,5); ctx.fill(); ctx.stroke();
+
+        ctx.globalAlpha = 0.18;
+        ctx.fillStyle = colA;
+        ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function tick(ts){
+      if(!t0) t0 = ts;
+      const dt = (ts - t0)/1000; t0 = ts;
+      if(Math.random()<0.08 && jobs.length<26) spawnJob();
+
+      for(const j of jobs){
+        const slow = (j.stage===1 && j.kind==='mantel') || j.lastWasPlancha;
+        const v = slow ? 0.13 : 0.20;
+        j.p += v*dt*(j.priority?1.05:1.0);
+        if(j.stage===1 && j.p>0.15){
+          if(j.kind==='mantel') j.lastWasPlancha=true;
+          else if(j.lastWasPlancha===undefined) j.lastWasPlancha=Math.random()<0.48;
+        }
+        if(j.p>=1){ j.stage+=1; j.p=0; }
+      }
+      jobs = jobs.filter(j => j.stage <= 2.2);
+      draw();
+      raf = requestAnimationFrame(tick);
+    }
+
+    function startSim(){
+      if(mq.matches) return;
+      if(!canvas || !ctx || raf) return;
+      resizeCanvas();
+      jobs = [];
+      for(let k=0;k<10;k++) spawnJob();
+      t0 = 0;
+      raf = requestAnimationFrame(tick);
+      window.addEventListener('resize', resizeCanvas);
+    }
+    function stopSim(){
+      if(raf){ cancelAnimationFrame(raf); raf=null; }
+      window.removeEventListener('resize', resizeCanvas);
+      if(ctx && canvas){
+        const w = canvas.getBoundingClientRect().width;
+        const h = canvas.getBoundingClientRect().height;
+        ctx.clearRect(0,0,w,h);
+      }
+    }
+
+    mq.addEventListener?.('change', setMode);
+    setMode();
+  </script>
 </body>
 </html>
